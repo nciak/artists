@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeForGig - strona artysty</title>
+
+    <link th:href="@{https://fonts.gstatic.com}" rel="preconnect" crossorigin>
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap}" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/vendors/bootstrap-4.5.0.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.min.css}">
+
+</head>
+
+<body>
+
+<header>
+
+
+    <div class="container-fluid position-relative">
+        <div class="row align-items-center">
+
+            <div class="col-auto">
+                <a th:href="@{/}" class="logo">
+                    <picture>
+                        <source th:srcset="@{/img/timeforgig-logo-mobile.svg}" media="(max-width: 1199px)"/>
+                        <img th:src="@{/img/timeforgig-logo.svg}" alt=""/>
+                    </picture>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</header>
+
+<main>
+
+    <section class="page_hero">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6">
+                    <img th:src="@{/img/artists/{imgFileName}(imgFileName=${imgFileName})}" alt="" width="560"
+                         height="315">
+                </div>
+                <div class="col-12 col-sm-12 col-md-6">
+
+                    <div class="hero_content">
+                        <h1 th:text="${artist.name}"></h1>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="container mt-5 position-relative">
+
+        <h2 class="mb-lg-5 mb-2">Koncerty tego artysty</h2>
+
+
+        <div class="event_list" id="event_list">
+
+            <h3 class="header-secondary">Koncerty w Polsce</h3>
+
+            <tr th:each="concert: ${polishConcertList}">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="list_item">
+                            <div class="list_desc">
+                                <h3 th:text="${artist.name} + ', ' + ${concert.place.city}"></h3>
+                                <div><span
+                                        th:text="${concert.startDate} + ' - ' + ${concert.place.buildingName} + ', ' + ${concert.place.regionDto.name}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+
+            <h3 class="header-secondary mt-5">Koncerty w Europie</h3>
+
+            <tr th:each="concert: ${europeanConcertList}">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="list_item">
+                            <div class="list_desc">
+                                <h3 th:text="${artist.name} + ', ' + ${concert.place.city}"></h3>
+                                <div><span
+                                        th:text="${concert.startDate} + ' - ' + ${concert.place.buildingName} + ', ' + ${concert.place.city}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+
+        </div>
+
+        <script>
+    function showMore() {
+    var listData = Array.prototype.slice.call(document.querySelectorAll('#event_list tr:not(.shown)')).slice(0, 3);
+  for (var i=0; i < listData.length; i++)
+  {
+    listData[i].className  = 'shown';
+  }
+}
+</script>
+
+        <div class="mt-5">
+            <button th:attr="onclick=${'showMore()'}" type="button" class="btn btn_primary_outline show_more">Więcej koncertów </button>
+                <svg class="fa_caret_down">
+                    <use th:href="@{img/fa.svg#caret-down}"></use>
+                </svg>
+                </a>
+        </div>
+    </section>
+
+    <section class="container mt-5">
+        <p th:text="${artist.description}"></p>
+    </section>
+
+</main>
+
+<footer>
+
+    <div class="bg_primary py-5">
+        <div class="container">
+            <div class="row justify-content-center align-items-center mb-3">
+            </div>
+            <p class="copy_footer text-center"><a href="#">Polityka prywatności</a> - <a href="#">Kontakt</a><br>Wszelkie
+                Prawa Zastrzeżone © 2022. TimeForGig
+            </p>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>
